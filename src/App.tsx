@@ -21,11 +21,6 @@ interface WithdrawalLog {
   timestamp?: bigint | undefined;
 }
 
-interface WithdrawFillerLog {
-  withdrawId?: bigint | undefined;
-  withdrawFillerId?: bigint | undefined;
-}
-
 const reverseHex = (hexString: string): string => {
   // Remove the '0x' prefix if it exists
   const cleanedHex = hexString.startsWith("0x")
@@ -152,6 +147,7 @@ const App: React.FC = () => {
   // Fetch resources on page load
   useEffect(() => {
     fetchResources();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -168,15 +164,17 @@ const App: React.FC = () => {
       </header>
 
       {/* Add some margin to ensure content is visible under the fixed header */}
-      <div className="w-full pt-20 flex flex-col items-center">
-        {/* Progress Bar */}
-        <div className="w-full max-w-xl bg-gray-300 rounded h-4 my-8 mx-auto">
-          <div
-            className="bg-blue-600 h-4 rounded"
-            style={{ width: `${progress}%` }}
-          />
+      {!isLoaded && (
+        <div className="w-full pt-20 flex flex-col items-center">
+          {/* Progress Bar */}
+          <div className="w-full max-w-xl bg-gray-300 rounded h-4 my-8 mx-auto">
+            <div
+              className="bg-blue-600 h-4 rounded"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Deposit Logs Table */}
       <div className="mx-auto p-4 bg-white rounded shadow-md">
